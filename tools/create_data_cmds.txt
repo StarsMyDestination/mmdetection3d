@@ -1,0 +1,19 @@
+## waymo
+python tools/create_data.py waymo \
+--root-path ./data/waymo/ \
+--out-dir ./data/waymo/ \
+--workers 2 --extra-tag waymo
+
+
+
+## kitti
+python tools/create_data.py kitti \
+--root-path ./data/kitti/ \
+--out-dir ./data/kitti/ \
+--workers 2 --extra-tag kitti
+
+
+
+
+## link $ROOT/data to $ROOT/tools/data for debug
+ln -s ../data data

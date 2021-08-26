@@ -20,8 +20,8 @@ from mmdet.datasets import replace_ImageToTensor
 def parse_args():
     parser = argparse.ArgumentParser(
         description='MMDet test (and eval) a model')
-    parser.add_argument('config', help='test config file path')
-    parser.add_argument('checkpoint', help='checkpoint file')
+    parser.add_argument('--config', help='test config file path')
+    parser.add_argument('--checkpoint', help='checkpoint file')
     parser.add_argument('--out', help='output result file in pickle format')
     parser.add_argument(
         '--fuse-conv-bn',
@@ -85,6 +85,8 @@ def parse_args():
         default='none',
         help='job launcher')
     parser.add_argument('--local_rank', type=int, default=0)
+    parser.add_argument('--extra_tag', type=str, default='debug')
+
     args = parser.parse_args()
     if 'LOCAL_RANK' not in os.environ:
         os.environ['LOCAL_RANK'] = str(args.local_rank)
@@ -101,6 +103,20 @@ def parse_args():
 
 def main():
     args = parse_args()
+
+    ## TODO DEBUG
+    if args.extra_tag == 'debug':
+
+        args.config = '../configs/second/hv_second_secfpn_6x8_80e_kitti-3d-3class.py'
+        args.checkpoint = 'work_dirs/model_zoo/second/hv_second_secfpn_6x8_80e_kitti-3d-3class_20200620_230238-9208083a.pth'
+
+        # args.show = True
+        # args.show_dir = 'work_dirs/second-3class'
+
+        args.fuse_conv_bn = False
+        args.eval = 'kitti'
+    ## END
+
 
     assert args.out or args.eval or args.format_only or args.show \
         or args.show_dir, \
